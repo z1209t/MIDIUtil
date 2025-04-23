@@ -1,0 +1,38 @@
+# Create MIDI track
+track = 0
+channel = 0
+time = 0      # In beats
+tempo = 85    # In BPM
+volume = 100  # 0-127
+
+# Create MIDI file with 1 track
+midi = MIDIFile(1)
+midi.addTempo(track, time, tempo)
+
+# Melody notes for the lyrics, in MIDI note numbers
+melody_notes = [
+    (64, 1),  # E4 - "I"
+    (67, 2),  # G4 - "can't feel my face"
+    (69, 1),  # A4 - "Fingers"
+    (67, 1),  # G4 - "bleedin'"
+    (None, 2),  # rest
+    (65, 1),  # F4 - "Knees"
+    (64, 2),  # E4 - "weak under the"
+    (62, 1),  # D4 - "weight"
+    (60, 2),  # C4 - "I chase"
+    (None, 1),  # rest
+]
+
+# Add notes to the track
+current_time = 0
+for pitch, duration in melody_notes:
+    if pitch is not None:
+        midi.addNote(track, channel, pitch, current_time, duration, volume)
+    current_time += duration
+
+# Save MIDI file
+midi_fp = "/mnt/data/one_more_demo.mid"
+with open(midi_fp, "wb") as output_file:
+    midi.writeFile(output_file)
+
+midi_fp
